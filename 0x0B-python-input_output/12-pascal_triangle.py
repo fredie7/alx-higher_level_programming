@@ -10,4 +10,4 @@ def pascal_triangle(n):
     for n in range(n):
         for i in range(n - 1):
             rows[n][i + 1] = sum(rows[n - 1][i:i + 2])
-    return  
+    return rows  
