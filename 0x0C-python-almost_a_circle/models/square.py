@@ -1,63 +1,50 @@
 #!/usr/bin/python3
-
-"""A module for Square class"""
-
+"""This module defines the Square class"""
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """A Square class"""
+    """Square class inherits from Rectangle"""
 
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialize square class"""
-        self.size = size
+        """Initialize private instance variables using super"""
         super().__init__(size, size, x, y, id)
+
+    def __str__(self):
+        """Returns string representation of a square"""
+        return "[Square] ({}) {:d}/{:d} - {:d}"\
+            .format(self.id, self.x, self.y, self.width)
 
     @property
     def size(self):
-        """To retrieve size"""
-        return self.__width
+        """Property size: size of square
+        setter calls super properties to set width and height to size
+        Parameter:
+            value: value of size to set width and height
+        """
+        return self.width
 
     @size.setter
-    def size(self, size):
-        """To set size"""
-        if type(size) != int:
-            raise TypeError("width must be an integer")
-        if size <= 0:
-            raise ValueError("width must be > 0")
-        self.__width = size
-        self.__height = size
-
-    def __str__(self):
-        """Creates a string object from a given object"""
-        end_string = "[Square] "
-        end_string += "({}) ".format(self.id)
-        end_string += "{:d}/{:d} - ".format(self.x, self.y)
-        end_string += "{:d}".format(self.size)
-        return end_string
+    def size(self, value):
+        self.width = value
+        self.height = value
 
     def update(self, *args, **kwargs):
-        """Assigns a key/value argument to each attribute"""
-        try:
-            self.id = args[0]
-            self.size = args[1]
-            self.x = args[2]
-            self.y = args[3]
-        except IndexError:
-            pass
-
-        if "id" in kwargs:
-            self.id = kwargs["id"]
-
-        if "size" in kwargs:
-            self.size = kwargs["size"]
-
-        if "x" in kwargs:
-            self.x = kwargs["x"]
-
-        if "y" in kwargs:
-            self.y = kwargs["y"]
+        """Update no keyword arguments first, then keyword arguments"""
+        if args and len(args) != 0:
+            attrs = ["id", "size", "x", "y"]
+            for i in range(len(args)):
+                if i >= len(attrs):
+                    return
+                setattr(self, attrs[i], args[i])
+        else:
+            for k, v in kwargs.items():
+                setattr(self, k, v)
 
     def to_dictionary(self):
-        """Creates string object from a given object"""
-        return {"id": self.id, "size": self.size, "x": self.x, "y": self.y}
+        """Return dictionary representation of a Square"""
+        my_dict = {}
+        attrs = ["id", "size", "x", "y"]
+        for a in attrs:
+            my_dict[a] = getattr(self, a)
+        return my_dict
