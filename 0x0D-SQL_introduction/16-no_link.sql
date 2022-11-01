@@ -1,6 +1,6 @@
--- lists the number of records with the same score in the table second_table
--- records are ordered by descending number count
-SELECT score, COUNT(*) AS number
+-- list all records of the second_table in descending order
+-- do not list rows without a name value
+SELECT score, name
 FROM second_table
-GROUP BY score
-ORDER BY number DESC;
+WHERE name != ''
+ORDER BY score DESC;
