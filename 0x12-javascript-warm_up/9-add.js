@@ -12,4 +12,3 @@ function add (a, b) {
 }
 
 console.log(add(argv[2], argv[3]));
-Footer
